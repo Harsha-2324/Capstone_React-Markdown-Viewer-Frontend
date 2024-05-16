@@ -1,0 +1,78 @@
+.signup__bg {
+    background-image: url(https://img.freepik.com/free-vector/user-verification-unauthorized-access-prevention-private-account-authentication-cyber-security-people-entering-login-password-safety-measures_335657-3530.jpg?w=740&t=st=1698372946~exp=1698373546~hmac=aa3d5e657db8891d4166c93f36951b7718e2ed5ae61d50173784fb93f3beb80b);
+    height: 92vh;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    overflow-x: hidden;
+}
+
+.signup-profile-pic__container {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.signup-profile-pic {
+    width: 100px;
+    border-radius: 50%;
+    border: 2px solid gray;
+    object-fit: cover;
+    height: 100px;
+}
+
+.add-picture-icon {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    color: green;
+    background: white;
+    cursor: pointer;
+    z-index: 99;
+}
+
+.logback2 {
+    
+  padding-bottom: 21%;
+  padding-left: 30%;
+  padding-top: 7%;
+  background-image: linear-gradient(
+    120deg,
+    #0a395e,
+    #4285f4,
+    #3b5998,
+    #0a395e,
+    #0a395e,
+    #4285f4,
+    #22668d
+  );
+  background-size: 300%;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  animation-name: menugradientanimation2;
+}
+@keyframes menugradientanimation2 {
+  0% {
+    background-position: 0 0;
+  }
+  25% {
+    background-position: 50% 0;
+  }
+  50% {
+    background-position: 90% 0;
+  }
+  60% {
+    background-position: 60%;
+  }
+  80% {
+    background-position: 40%;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+.mark2 {
+  width: 55%;
+  margin-left: 25%;
+}
