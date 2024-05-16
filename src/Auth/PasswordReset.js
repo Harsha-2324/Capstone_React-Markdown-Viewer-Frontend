@@ -69,7 +69,7 @@ function PasswordReset() {
               <Form.Label>New Password</Form.Label>
               <Form.Control
                 value={values.password}
-                type="text"
+                type="password"
                 placeholder="Enter your Password"
                 name="password"
                 onChange={handleChange}
