@@ -4,7 +4,7 @@ import ReactMarkdown from "react-markdown";
     return(
         <>
          
-        <article  className="result">
+        <article  className="result" style={{ textAlign: "start" }}>
         <ReactMarkdown  className="preview">{markdown}</ReactMarkdown>
       </article>
       </>

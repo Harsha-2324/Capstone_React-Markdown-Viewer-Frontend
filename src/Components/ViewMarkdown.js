@@ -6,8 +6,17 @@ import ReactMarkdown from "react-markdown";
 import { API } from "../globle";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function ViewMarkdown(){
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
 
     const {id} = useParams()
 
@@ -36,49 +45,63 @@ function ViewMarkdown(){
 }, [id]); // Add id to the dependency array if it is used inside the useEffect callback
 
      return (
-       <>
-         <div className="back to dashboard">
-           <Link to="/dashboard/get">
-             <Button
-               variant="outlined"
-               style={{
-                 color: "white",
-                 backgroundColor: "navy",
-                 margin: "10px",
-                 fontFamily: "inherit",
-               }}
-             >
-               Back to Dashboard
-             </Button>
-           </Link>
-         </div>
-         <div className="viewcontainer">
-           <div className="viewhead">
-             <h5
-               style={{
-                 margin: "50px",
-                 fontFamily: "inherit",
-               }}
-             >
-               Project Title: {projectData.title}
-             </h5>
-             <h5
-               style={{
-                 margin: "50px",
-                 fontFamily: "inherit",
-               }}
-             >
-               Date of Creation: {projectData.date}
-             </h5>
-           </div>
+       <div className="load3">
+         {loading ? (
+           <ClipLoader
+             color={"#090f7b"}
+             loading={loading}
+             size={75}
+             aria-label="Loading Spinner"
+             data-testid="loader"
+             className="inload3"
+           />
+         ) : (
+           <>
+             <div className="back to dashboard">
+               <Link to="/dashboard/get">
+                 <Button
+                   variant="outlined"
+                   style={{
+                     color: "white",
+                     backgroundColor: "navy",
+                     marginTop: "2%",
+                    //  marginRight: "70%",
+                     fontFamily: "inherit",
+                   }}
+                 >
+                   Back to Dashboard
+                 </Button>
+               </Link>
+             </div>
+             <div className="viewcontainer">
+               <div className="viewhead">
+                 <h5
+                   style={{
+                     margin: "50px",
+                     fontFamily: "inherit",
+                   }}
+                 >
+                   Project Title: {projectData.title}
+                 </h5>
+                 <h5
+                   style={{
+                     margin: "50px",
+                     fontFamily: "inherit",
+                   }}
+                 >
+                   Date of Creation: {projectData.date}
+                 </h5>
+               </div>
 
-           <article className="viewresult">
-             <ReactMarkdown className="preview">
-               {projectData.markdown}
-             </ReactMarkdown>
-           </article>
-         </div>
-       </>
+               <article className="viewresult" style={{ textAlign: "start" }}>
+                 <ReactMarkdown className="preview">
+                   {projectData.markdown}
+                 </ReactMarkdown>
+               </article>
+             </div>
+           </>
+         )}
+       </div>
      );
 }
 export default ViewMarkdown;

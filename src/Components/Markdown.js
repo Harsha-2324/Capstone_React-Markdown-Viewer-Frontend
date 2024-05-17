@@ -10,8 +10,19 @@ import Button from '@mui/material/Button';
 import { CheckAuth } from "../Auth/CheckAuth";
 import { LogOut } from "../Auth/LogOut";
 import { API } from "../globle";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function Mardown() {
+
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
     const [data, setData] = useState([])
 
     useEffect(() => getDetails(), [])
@@ -43,86 +54,101 @@ function Mardown() {
         
        }
     console.log(data)
-    return (
-      <div className="create">
-        <Link to="/dashboard/create">
-          <Button
-            variant="outlined"
-            style={{
-              color: "white",
-              backgroundColor: "navy",
-              margin: "10px",
-              fontFamily: "inherit",
-            }}
-          >
-            Create Project
-          </Button>
-        </Link>
+  return (
+    <div className="load3">
+      {loading ? (
+        <ClipLoader
+          color={"#090f7b"}
+          loading={loading}
+          size={75}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+          className="inload3"
+        />
+      ) : (
+        <div className="create">
+          <Link to="/dashboard/create">
+            <div  style={{ marginLeft: "90%" }}>
+              <Button
+                variant="outlined"
+                style={{
+                  color: "white",
+                  backgroundColor: "navy",
+                  margin: "20px",
+                  fontFamily: "inherit",
+                }}
+              >
+                Create Project
+              </Button>
+            </div>
+          </Link>
 
-        <Table striped bordered hover>
-          <thead>
-            <th
-              style={{
-                color: "white",
-                backgroundColor: "navy",
-                fontFamily: "inherit",
-              }}
-            >
-              Project Title
-            </th>
-            <th
-              style={{
-                color: "white",
-                backgroundColor: "navy",
-                fontFamily: "inherit",
-              }}
-            >
-              Date of Creation
-            </th>
-            <th
-              style={{
-                color: "white",
-                backgroundColor: "navy",
-                fontFamily: "inherit",
-              }}
-            >
-              Actions
-            </th>
-          </thead>
-          <tbody>
-            {data.map((project) => {
-              return (
-                <tr>
-                  <td>{project.title}</td>
-                  <td>{project.date}</td>
-                  <td className="threebtns">
-                    <Link to={`/dashboard/view/${project._id}`}>
-                      <PreviewIcon
+          <Table striped bordered hover>
+            <thead>
+              <th
+                style={{
+                  color: "white",
+                  backgroundColor: "navy",
+                  fontFamily: "inherit",
+                }}
+              >
+                Project Title
+              </th>
+              <th
+                style={{
+                  color: "white",
+                  backgroundColor: "navy",
+                  fontFamily: "inherit",
+                }}
+              >
+                Date of Creation
+              </th>
+              <th
+                style={{
+                  color: "white",
+                  backgroundColor: "navy",
+                  fontFamily: "inherit",
+                }}
+              >
+                Actions
+              </th>
+            </thead>
+            <tbody>
+              {data.map((project) => {
+                return (
+                  <tr>
+                    <td>{project.title}</td>
+                    <td>{project.date}</td>
+                    <td className="threebtns">
+                      <Link to={`/dashboard/view/${project._id}`}>
+                        <PreviewIcon
+                          style={{
+                            color: "green",
+                          }}
+                        />
+                      </Link>
+                      <Link to={`/dashboard/edit/${project._id}`}>
+                        <EditNoteIcon
+                          style={{
+                            color: "navy",
+                          }}
+                        />
+                      </Link>
+                      <DeleteIcon
+                        onClick={() => projectDelete(project._id)}
                         style={{
-                          color: "green",
+                          color: "red",
                         }}
                       />
-                    </Link>
-                    <Link to={`/dashboard/edit/${project._id}`}>
-                      <EditNoteIcon
-                        style={{
-                          color: "navy",
-                        }}
-                      />
-                    </Link>
-                    <DeleteIcon
-                      onClick={() => projectDelete(project._id)}
-                      style={{
-                        color: "red",
-                      }}
-                    />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
-      </div>
-    );
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </Table>
+        </div>
+      )}
+    </div>
+  );
 }
 export default Mardown;

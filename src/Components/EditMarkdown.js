@@ -1,161 +1,155 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import { useNavigate, useParams } from "react-router-dom";
 import { API } from "../globle";
-import Button from 'react-bootstrap/Button';
+import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
-
-
+import ClipLoader from "react-spinners/ClipLoader";
 
 export function EditMarkdown() {
-   const {id} = useParams();
-   const[editdata,setEditData]= useState(null)
+  const [loading, setLoading] = useState(false);
 
-   useEffect(()=>{
-    fetch(`${API}/players/${id}`,{
-        method:"GET",
-        headers:{
-          "x-auth-token" : localStorage.getItem("token")
-        }
-       })
-       .then((dt)=>dt.json())
-       .then((details)=>setEditData(details))
-   },[id]);
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
 
-  return (
-    
-     <div>{editdata ? <Edit editdata={editdata}/> : null}</div>
-   
-  );
+  const { id } = useParams();
+  const [editdata, setEditData] = useState(null);
+
+  useEffect(() => {
+    fetch(`${API}/players/${id}`, {
+      method: "GET",
+      headers: {
+        "x-auth-token": localStorage.getItem("token"),
+      },
+    })
+      .then((dt) => dt.json())
+      .then((details) => setEditData(details));
+  }, [id]);
+
+  return <div>{editdata ? <Edit editdata={editdata} /> : null}</div>;
 }
- 
- function Edit({editdata}){
 
+function Edit({ editdata }) {
   const [markdown, setMarkdown] = useState(editdata.markdown);
-  const [title, setTitle] = useState(editdata.title)
-  const [date, setDate] = useState(editdata.date)
+  const [title, setTitle] = useState(editdata.title);
+  const [date, setDate] = useState(editdata.date);
 
   const navigate = useNavigate();
-  
-  const onTextChange = e => setMarkdown(e.target.value);
 
-  const onTitleChange = e => setTitle(e.target.value);
+  const onTextChange = (e) => setMarkdown(e.target.value);
 
-  const onDateChange = e => setDate(e.target.value);
+  const onTitleChange = (e) => setTitle(e.target.value);
 
-  const handleSubmit = e => {
+  const onDateChange = (e) => setDate(e.target.value);
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    const data = {markdown, title, date };
+    const data = { markdown, title, date };
     const requestOptions = {
       method: "PUT",
       headers: {
-         "Content-Type": "application/json",
-         "x-auth-token" : localStorage.getItem("token")
-        },
-      body: JSON.stringify(data)
+        "Content-Type": "application/json",
+        "x-auth-token": localStorage.getItem("token"),
+      },
+      body: JSON.stringify(data),
     };
     fetch(`${API}/players/${editdata._id}`, requestOptions)
-      .then(response => response.json())
-      .then(()=>navigate("/dashboard/get"));
+      .then((response) => response.json())
+      .then(() => navigate("/dashboard/get"));
   };
 
-
-    return (
-      <form className="markdown">
-        <div className="division">
-          <div className="fields">
-            <div>
-              <label
-                style={{
-                  color: "black",
-                  paddingTop: "20px",
-                  paddingBottom: "20px",
-                  paddingLeft: "10px",
-                  paddingRight: "10px",
-                  fontFamily: "inherit",
-                }}
-              >
-                Title:
-              </label>
-              <input
-                type="text"
-                value={title}
-                onChange={onTitleChange}
-                required
-              />
-              {/* </div>
+  return (
+    <form className="markdown">
+      <div className="division">
+        <div className="fields">
+          <div>
+            <label
+              style={{
+                color: "black",
+                paddingTop: "20px",
+                paddingBottom: "20px",
+                paddingLeft: "10px",
+                paddingRight: "10px",
+                fontFamily: "inherit",
+              }}
+            >
+              Title:
+            </label>
+            <input
+              type="text"
+              value={title}
+              onChange={onTitleChange}
+              required
+            />
+            {/* </div>
 
             <div> */}
-              <label
-                style={{
-                  color: "black",
-                  paddingTop: "20px",
-                  paddingBottom: "20px",
-                  paddingLeft: "10px",
-                  paddingRight: "10px",
-                  fontFamily: "inherit",
-                }}
-              >
-                Date:
-              </label>
-              <input
-                type="date"
-                value={date}
-                onChange={onDateChange}
-                required
-              />
-              
+            <label
+              style={{
+                color: "black",
+                paddingTop: "20px",
+                paddingBottom: "20px",
+                paddingLeft: "10px",
+                paddingRight: "10px",
+                fontFamily: "inherit",
+              }}
+            >
+              Date:
+            </label>
+            <input type="date" value={date} onChange={onDateChange} required />
+
+            <Button
+              type="submit"
+              variant="outlined"
+              onClick={handleSubmit}
+              className="editbtn"
+              style={{
+                color: "white",
+                backgroundColor: "navy",
+                marginTop: "10px",
+                marginBottom: "10px",
+                fontFamily: "inherit",
+              }}
+            >
+              Save Update
+            </Button>
+
+            <Link to="/dashboard/get">
               <Button
-                type="submit"
                 variant="outlined"
-                onClick={handleSubmit}
                 className="editbtn"
                 style={{
                   color: "white",
-                  backgroundColor: "navy",
-                  marginTop: "10px",
-                  marginBottom: "10px",
+                  backgroundColor: "#F63E02",
+                  margin: "10px",
+                  marginLeft: "20px",
                   fontFamily: "inherit",
                 }}
               >
-                Save Update
+                Cancel
               </Button>
-              
-              <Link to="/dashboard/get">
-                <Button
-                  variant="outlined"
-                  className="editbtn"
-                  style={{
-                    color: "white",
-                    backgroundColor: "#F63E02",
-                    margin: "10px",
-                    marginLeft: "20px",
-                    fontFamily: "inherit",
-                  }}
-                >
-                  Cancel
-                </Button>
-              </Link>
-            </div>
+            </Link>
           </div>
-
-          <textarea
-            className="input"
-            value={markdown}
-            onChange={onTextChange}
-            required
-          >
-            {" "}
-          </textarea>
         </div>
 
-        <article className="result">
-          <ReactMarkdown>{markdown}</ReactMarkdown>
-        </article>
-      </form>
-    );
- }
+        <textarea
+          className="input"
+          value={markdown}
+          onChange={onTextChange}
+          required
+        >
+          {" "}
+        </textarea>
+      </div>
 
-
-
+      <article className="result">
+        <ReactMarkdown>{markdown}</ReactMarkdown>
+      </article>
+    </form>
+  );
+}

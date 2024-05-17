@@ -4,8 +4,19 @@ import Article from "./Article";
 import { API } from "../globle";
 import Button from "react-bootstrap/Button";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function CreateMarkdown() {
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
   const [markdown, setMarkdown] = useState("# Markdown Preview");
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
@@ -38,95 +49,109 @@ function CreateMarkdown() {
   };
 
   return (
-    <div className="markdown">
-      <div className="division">
-        <div className="fields">
-          <form>
-            <div>
-              <label
-                style={{
-                  color: "black",
-                  paddingTop: "20px",
-                  paddingBottom: "20px",
-                  paddingLeft: "10px",
-                  paddingRight: "10px",
-                  fontFamily: "inherit",
-                }}
-              >
-                Project Title:
-              </label>
-              <input
-                type="text"
-                value={title}
-                onChange={onTitleChange}
-                required="true"
-                pattern="[a-zA-z]+"
-              />
+    <div className="load3">
+      {loading ? (
+        <ClipLoader
+          color={"#090f7b"}
+          loading={loading}
+          size={75}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+          className="inload3"
+          
+        />
+      ) : (
+        <div className="markdown">
+          <div className="division">
+            <div className="fields">
+              <form>
+                <div>
+                  <label
+                    style={{
+                      color: "black",
+                      paddingTop: "20px",
+                      paddingBottom: "20px",
+                      paddingLeft: "10px",
+                      paddingRight: "10px",
+                      fontFamily: "inherit",
+                    }}
+                  >
+                    Project Title:
+                  </label>
+                  <input
+                    type="text"
+                    value={title}
+                    onChange={onTitleChange}
+                    required="true"
+                    pattern="[a-zA-z]+"
+                  />
 
-              <label
-                style={{
-                  color: "black",
-                  paddingTop: "20px",
-                  paddingBottom: "20px",
-                  paddingLeft: "10px",
-                  paddingRight: "10px",
-                  fontFamily: "inherit",
-                }}
-              >
-                Date:
-              </label>
-              <input
-                type="date"
-                value={date}
-                onChange={onDateChange}
-                required="true"
-              />
+                  <label
+                    style={{
+                      color: "black",
+                      paddingTop: "20px",
+                      paddingBottom: "20px",
+                      paddingLeft: "10px",
+                      paddingRight: "10px",
+                      fontFamily: "inherit",
+                    }}
+                  >
+                    Date:
+                  </label>
+                  <input
+                    type="date"
+                    value={date}
+                    onChange={onDateChange}
+                    required="true"
+                  />
 
-              <Button
-                type="submit"
-                onClick={handleSubmit}
-                variant="success"
-                className="editbtn"
-                style={{
-                  color: "white",
-                  marginTop: "10px",
-                  marginBottom: "10px",
-                  fontFamily: "inherit",
-                }}
-              >
-                Save
-              </Button>
-              <Link to="/dashboard/get">
-                <Button
-                  variant="outlined"
-                  className="editbtn"
-                  style={{
-                    color: "white",
-                    backgroundColor: "#F63E02",
-                    margin: "10px",
-                    marginLeft: "20px",
-                    fontFamily: "inherit",
-                  }}
-                >
-                  Cancel
-                </Button>
-              </Link>
+                  <Button
+                    type="submit"
+                    onClick={handleSubmit}
+                    variant="success"
+                    className="editbtn"
+                    style={{
+                      color: "white",
+                      marginTop: "10px",
+                      marginBottom: "10px",
+                      fontFamily: "inherit",
+                    }}
+                  >
+                    Save
+                  </Button>
+                  <Link to="/dashboard/get">
+                    <Button
+                      variant="outlined"
+                      className="editbtn"
+                      style={{
+                        color: "white",
+                        backgroundColor: "#F63E02",
+                        margin: "10px",
+                        marginLeft: "20px",
+                        fontFamily: "inherit",
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </Link>
+                </div>
+              </form>
             </div>
-          </form>
+
+            <textarea
+              className="input"
+              value={markdown}
+              //   onChange={(e) => setMarkdown(e.target.value)}
+              onChange={onTextChange}
+              required
+            >
+              {" "}
+            </textarea>
+          </div>
+
+          <Article markdown={markdown} />
         </div>
-
-        <textarea
-          className="input"
-          value={markdown}
-          //   onChange={(e) => setMarkdown(e.target.value)}
-          onChange={onTextChange}
-          required
-        >
-          {" "}
-        </textarea>
-      </div>
-
-      <Article markdown={markdown} />
+      )}
     </div>
   );
 }
