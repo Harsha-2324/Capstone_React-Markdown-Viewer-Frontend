@@ -36,7 +36,7 @@ export function EditMarkdown() {
 function Edit({ editdata }) {
   const [markdown, setMarkdown] = useState(editdata.markdown);
   const [title, setTitle] = useState(editdata.title);
-  const [date, setDate] = useState(editdata.date);
+  const [date, setDate] = useState(Date());
 
   const navigate = useNavigate();
 
@@ -50,37 +50,20 @@ function Edit({ editdata }) {
     e.preventDefault();
 
     const data = { markdown, title, date };
-    if (data.title == "" && data.date == "" && data.markdown == "") {
-      alert("Please Enter the Title, Date and Markdown values!");
+    if (data.title == "" && data.markdown == "") {
+      alert("Please Enter the Title and Markdown values!");
       // data.title.focus();
-
-      return false;
-    } else if (data.title == "" && data.date == "") {
-      alert("Please enter the Title and Date!");
-
-      return false;
-    } else if (data.title == "" && data.markdown == "") {
-      alert("Please enter the Title and Markdown Value!");
-
-      return false;
-    } else if (data.date == "" && data.markdown == "") {
-      alert("Please enter the Date and Markdown Value!");
 
       return false;
     } else if (data.title == "") {
       alert("Please enter the Title!");
 
       return false;
-    } else if (data.date == "") {
-      alert("Please enter the Date!");
-
-      return false;
     } else if (data.markdown == "") {
       alert("Please enter a value in Markdown Editor!");
 
       return false;
-    }
-    else {
+    } else {
       const requestOptions = {
         method: "PUT",
         headers: {
@@ -134,7 +117,13 @@ function Edit({ editdata }) {
             >
               Date:
             </label>
-            <input type="date" value={date} onChange={onDateChange} required />
+            <input
+              type="text"
+              value={Date()}
+              onChange={onDateChange}
+              required
+              readOnly
+            />
 
             <Button
               type="submit"

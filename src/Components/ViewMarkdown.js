@@ -89,7 +89,7 @@ function ViewMarkdown(){
                      fontFamily: "inherit",
                    }}
                  >
-                   Date of Creation: {projectData.date}
+                   Date & Time of Creation: {projectData.date}
                  </h5>
                </div>
 

@@ -20,7 +20,7 @@ function CreateMarkdown() {
 
   const [markdown, setMarkdown] = useState("# Markdown Preview");
   const [title, setTitle] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(Date());
   const navigate = useNavigate();
 
   const onTextChange = (e) => setMarkdown(e.target.value);
@@ -33,30 +33,14 @@ function CreateMarkdown() {
     e.preventDefault();
 
     const data = { markdown, title, date };
-    if (data.title == "" && data.date == "" && data.markdown == "") {
-      alert("Please Enter the Title, Date and Markdown values!");
+    if (data.title == "" && data.markdown == "") {
+      alert("Please Enter the Title and Markdown values!");
       // data.title.focus();
 
       return false;
-    } else if (data.title == "" && data.date == "") {
-      alert("Please enter the Title and Date!");
-
-      return false;
-    }
-      else if (data.title == "" && data.markdown == "") {
-        alert("Please enter the Title and Markdown Value!");
-
-        return false;
-      } else if (data.date == "" && data.markdown == "") {
-        alert("Please enter the Date and Markdown Value!");
-
-        return false;
-      } else if (data.title == "") {
+    } 
+    else if (data.title == "") {
         alert("Please enter the Title!");
-
-        return false;
-      } else if (data.date == "") {
-        alert("Please enter the Date!");
 
         return false;
       } else if (data.markdown == "") {
@@ -132,12 +116,14 @@ function CreateMarkdown() {
                   Date:
                 </label>
                 <input
-                  type="date"
-                  value={date}
+                  type="text"
+                  value={Date()}
+                  id="date"
                   onChange={onDateChange}
                   required="true"
+                  readOnly
                 />
-                
+
                 <Button
                   type="submit"
                   onClick={handleSubmit}

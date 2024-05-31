@@ -101,7 +101,7 @@ function Mardown() {
                   fontFamily: "inherit",
                 }}
               >
-                Date of Creation
+                Date & Time of Creation
               </th>
               <th
                 style={{
