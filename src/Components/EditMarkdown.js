@@ -50,17 +50,50 @@ function Edit({ editdata }) {
     e.preventDefault();
 
     const data = { markdown, title, date };
-    const requestOptions = {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "x-auth-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify(data),
-    };
-    fetch(`${API}/players/${editdata._id}`, requestOptions)
-      .then((response) => response.json())
-      .then(() => navigate("/dashboard/get"));
+    if (data.title == "" && data.date == "" && data.markdown == "") {
+      alert("Please Enter the Title, Date and Markdown values!");
+      // data.title.focus();
+
+      return false;
+    } else if (data.title == "" && data.date == "") {
+      alert("Please enter the Title and Date!");
+
+      return false;
+    } else if (data.title == "" && data.markdown == "") {
+      alert("Please enter the Title and Markdown Value!");
+
+      return false;
+    } else if (data.date == "" && data.markdown == "") {
+      alert("Please enter the Date and Markdown Value!");
+
+      return false;
+    } else if (data.title == "") {
+      alert("Please enter the Title!");
+
+      return false;
+    } else if (data.date == "") {
+      alert("Please enter the Date!");
+
+      return false;
+    } else if (data.markdown == "") {
+      alert("Please enter a value in Markdown Editor!");
+
+      return false;
+    }
+    else {
+      const requestOptions = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": localStorage.getItem("token"),
+        },
+        body: JSON.stringify(data),
+      };
+      fetch(`${API}/players/${editdata._id}`, requestOptions)
+        .then((response) => response.json())
+        .then(() => navigate("/dashboard/get"));
+      return true;
+    }
   };
 
   return (

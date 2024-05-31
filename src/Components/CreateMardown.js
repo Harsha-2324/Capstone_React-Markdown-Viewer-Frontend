@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 
+
 function CreateMarkdown() {
   const [loading, setLoading] = useState(false);
 
@@ -32,20 +33,54 @@ function CreateMarkdown() {
     e.preventDefault();
 
     const data = { markdown, title, date };
-    data.email = localStorage.getItem("email");
+    if (data.title == "" && data.date == "" && data.markdown == "") {
+      alert("Please Enter the Title, Date and Markdown values!");
+      // data.title.focus();
 
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-auth-token": localStorage.getItem("token"),
-      },
-      body: JSON.stringify(data),
-    };
+      return false;
+    } else if (data.title == "" && data.date == "") {
+      alert("Please enter the Title and Date!");
 
-    fetch(`${API}/players`, requestOptions)
-      .then((response) => response.json())
-      .then(() => navigate("/dashboard/get"));
+      return false;
+    }
+      else if (data.title == "" && data.markdown == "") {
+        alert("Please enter the Title and Markdown Value!");
+
+        return false;
+      } else if (data.date == "" && data.markdown == "") {
+        alert("Please enter the Date and Markdown Value!");
+
+        return false;
+      } else if (data.title == "") {
+        alert("Please enter the Title!");
+
+        return false;
+      } else if (data.date == "") {
+        alert("Please enter the Date!");
+
+        return false;
+      } else if (data.markdown == "") {
+        alert("Please enter a value in Markdown Editor!");
+
+        return false;
+      } else {
+        data.email = localStorage.getItem("email");
+
+        const requestOptions = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": localStorage.getItem("token"),
+          },
+          body: JSON.stringify(data),
+        };
+
+        fetch(`${API}/players`, requestOptions)
+          .then((response) => response.json())
+          .then(() => navigate("/dashboard/get"));
+        return true;
+      }
+    
   };
 
   return (
@@ -58,83 +93,80 @@ function CreateMarkdown() {
           aria-label="Loading Spinner"
           data-testid="loader"
           className="inload3"
-          
         />
       ) : (
         <div className="markdown">
           <div className="division">
             <div className="fields">
-              <form>
-                <div>
-                  <label
-                    style={{
-                      color: "black",
-                      paddingTop: "20px",
-                      paddingBottom: "20px",
-                      paddingLeft: "10px",
-                      paddingRight: "10px",
-                      fontFamily: "inherit",
-                    }}
-                  >
-                    Project Title:
-                  </label>
-                  <input
-                    type="text"
-                    value={title}
-                    onChange={onTitleChange}
-                    required="true"
-                    pattern="[a-zA-z]+"
-                  />
+              <form name="form" id="form">
+                <label
+                  style={{
+                    color: "black",
+                    paddingTop: "20px",
+                    paddingBottom: "20px",
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
+                    fontFamily: "inherit",
+                  }}
+                >
+                  Project Title:
+                </label>
+                <input
+                  type="text"
+                  value={title}
+                  onChange={onTitleChange}
+                  required="true"
+                  pattern="[a-zA-z]+"
+                />
 
-                  <label
-                    style={{
-                      color: "black",
-                      paddingTop: "20px",
-                      paddingBottom: "20px",
-                      paddingLeft: "10px",
-                      paddingRight: "10px",
-                      fontFamily: "inherit",
-                    }}
-                  >
-                    Date:
-                  </label>
-                  <input
-                    type="date"
-                    value={date}
-                    onChange={onDateChange}
-                    required="true"
-                  />
-
+                <label
+                  style={{
+                    color: "black",
+                    paddingTop: "20px",
+                    paddingBottom: "20px",
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
+                    fontFamily: "inherit",
+                  }}
+                >
+                  Date:
+                </label>
+                <input
+                  type="date"
+                  value={date}
+                  onChange={onDateChange}
+                  required="true"
+                />
+                
+                <Button
+                  type="submit"
+                  onClick={handleSubmit}
+                  variant="success"
+                  className="editbtn"
+                  style={{
+                    color: "white",
+                    marginTop: "10px",
+                    marginBottom: "10px",
+                    fontFamily: "inherit",
+                  }}
+                >
+                  Save
+                </Button>
+                <Link to="/dashboard/get">
                   <Button
-                    type="submit"
-                    onClick={handleSubmit}
-                    variant="success"
+                    variant="outlined"
                     className="editbtn"
                     style={{
                       color: "white",
-                      marginTop: "10px",
-                      marginBottom: "10px",
+                      backgroundColor: "#F63E02",
+                      margin: "10px",
+                      marginLeft: "20px",
                       fontFamily: "inherit",
                     }}
                   >
-                    Save
+                    Cancel
                   </Button>
-                  <Link to="/dashboard/get">
-                    <Button
-                      variant="outlined"
-                      className="editbtn"
-                      style={{
-                        color: "white",
-                        backgroundColor: "#F63E02",
-                        margin: "10px",
-                        marginLeft: "20px",
-                        fontFamily: "inherit",
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                  </Link>
-                </div>
+                </Link>
               </form>
             </div>
 
